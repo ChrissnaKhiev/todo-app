@@ -1,8 +1,17 @@
 const router = require('express').Router();
 const { User } = require('../models');
 
-router.get('/', (req, res) => {
-    res.json('TESTING FROM USERROUTES');
+router.get('/', async (req, res) => {
+    // res.json('TESTING FROM USERROUTES');
+    try {
+        const userData = await User.findAll({
+          include: [{ model: Task }],
+        });
+        console.log(userData);
+        res.status(200).json(userData);
+      } catch (err) {
+        res.status(500).json(err);
+      }
 });
 
 router.post('/', async (req, res) => {
